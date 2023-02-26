@@ -1,44 +1,60 @@
 package jojo.sort;
 
+import java.util.Random;
+
 public class QuickSort {
 
-    private static int partition(Comparable[] a, int lo, int hi)
-    {
-        int i = lo, j = hi+1;
-        while (true)
-        {
-            while (less(a[++i], a[lo]))
-                if (i == hi) break;
-            while (less(a[lo], a[--j]))
-                if (j == lo) break;
+    public static void sort(int[] array) {
+        sort(array, 0, array.length - 1);
+    }
 
-            if (i >= j) break;
-            exch(a, i, j);
+    private static void sort(int[] array, int lowIndex, int highIndex) {
+
+        if (lowIndex >= highIndex) {
+            return;
         }
-        exch(a, lo, j);
-        return j;
+
+        int pivotIndex = new Random().nextInt(highIndex - lowIndex) + lowIndex;
+        int pivot = array[pivotIndex];
+        swap(array, pivotIndex, highIndex);
+
+        int leftPointer = partition(array, lowIndex, highIndex, pivot);
+
+        sort(array, lowIndex, leftPointer - 1);
+        sort(array, leftPointer + 1, highIndex);
+
     }
 
-    public static void sort(Comparable[] a)
-    {
-//        StdRandom.shuffle(a);
-        sort(a, 0, a.length - 1);
-    }
-    private static void sort(Comparable[] a, int lo, int hi)
-    {
-        if (hi <= lo) return;
-        int j = partition(a, lo, hi);
-        sort(a, lo, j-1);
-        sort(a, j+1, hi);
+    private static int partition(int[] array, int lowIndex, int highIndex, int pivot) {
+        int leftPointer = lowIndex;
+        int rightPointer = highIndex - 1;
+
+        while (leftPointer < rightPointer) {
+
+            while (array[leftPointer] <= pivot && leftPointer < rightPointer) {
+                leftPointer++;
+            }
+
+            while (array[rightPointer] >= pivot && leftPointer < rightPointer) {
+                rightPointer--;
+            }
+
+            swap(array, leftPointer, rightPointer);
+        }
+
+        if (array[leftPointer] > array[highIndex]) {
+            swap(array, leftPointer, highIndex);
+        } else {
+            leftPointer = highIndex;
+        }
+
+        return leftPointer;
     }
 
-    private static boolean less(Comparable v, Comparable w) {
-        return v.compareTo(w) < 0;
+    private static void swap(int[] array, int index1, int index2) {
+        int temp = array[index1];
+        array[index1] = array[index2];
+        array[index2] = temp;
     }
 
-    private static void exch(Comparable[] a, int i, int j) {
-        Comparable swap = a[i];
-        a[i] = a[j];
-        a[j] = swap;
-    }
 }

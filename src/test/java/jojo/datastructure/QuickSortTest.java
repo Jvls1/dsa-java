@@ -1,19 +1,19 @@
 package jojo.datastructure;
 
-import jojo.sort.SelectionSort;
+import jojo.sort.QuickSort;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Random;
 
-public class SelectionSortTest {
+public class QuickSortTest {
 
-    private Integer[] numbers;
+    private int[] numbers;
 
     @BeforeEach
     public void fillTheArray() {
         Random rand = new Random();
-        numbers = new Integer[100];
+        numbers = new int[100];
 
         for (int i = 0; i < numbers.length; i++) {
             numbers[i] = rand.nextInt(100);
@@ -21,7 +21,8 @@ public class SelectionSortTest {
     }
 
     @Test
-    public void testSelectioSort() {
-        SelectionSort.sort(numbers);
+    public void testQuickSort() {
+        QuickSort.sort(numbers);
     }
+
 }
